@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import TodoList from '../components/TodoList';
 
@@ -8,7 +8,7 @@ TodoFeature.propTypes = {
 };
 
 function TodoFeature(props) {
-    const todoList = [
+    const initTodoList = [
         {
             id: 1,
             title: 'Eat',
@@ -24,13 +24,26 @@ function TodoFeature(props) {
             title: 'Code',
             status: 'new'
         },
-    ]
+    ];
+
+    const [todoList, setTodoList] = useState(initTodoList);
+
+    const handleTodoClick = (todo, idx) => {
+        const newTodoList = [...todoList]
+        newTodoList[idx] = {
+            ...newTodoList[idx],
+            status: newTodoList[idx].status === 'new' ? 'complete' : 'new',
+        }
+        console.log(todo, idx)
+        setTodoList(newTodoList);
+    };
+
 
     return (
         <div>
             <h3>Todo List</h3>
 
-            <TodoList todoList = {todoList} />
+            <TodoList todoList = {todoList}  onTodoClick = {handleTodoClick} />
             
         </div>
     );
